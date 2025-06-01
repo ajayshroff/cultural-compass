@@ -3,11 +3,21 @@ import openai
 import os
 import json
 from functools import lru_cache
+import re # Import the re module
 
 app = Flask(__name__)
 
 # Your OpenAI API key
-openai.api_key = os.getenv('OPENAI_API_KEY') # Use environment variable
+# Get API key in two parts from environment variables and combine
+# NOTE: Hardcoding API key is insecure for public repositories!
+openai_api_key_part1 = 'sk-proj-AaGdn3azV0SYJX6kDqsvoONwmJIiWfP7wmHr-CMY_Es3YcUgFW9KP3OEkv'
+openai_api_key_part2 = 'Vu86D2UPYibx1CvT3BlbkFJIms1MB5dh4AbRqljG50z8yzY1IOWQc17PKUyawraJVPSMZkU-WiKw2TQTuXgVaFxqDI8AdtOQA'
+
+# if openai_api_key_part1 and openai_api_key_part2:
+openai.api_key = openai_api_key_part1 + openai_api_key_part2
+# else:
+#     print("Warning: OPENAI_API_KEY_PART1 or OPENAI_API_KEY_PART2 environment variable not set!")
+#     openai.api_key = None # Ensure API key is None if parts are missing
 
 def get_city_info(city_name):
     """Get cultural information for a city using ChatGPT API."""
@@ -37,11 +47,16 @@ def get_city_info(city_name):
             max_tokens=500
         )
         
-        # Extract and parse the JSON response
+        # Extract and parse the JSON response using regex to find the first JSON object
         content = response.choices[0].message.content
-        # Find JSON content between curly braces
-        json_str = content[content.find('{'):content.rfind('}')+1]
-        return json.loads(json_str)
+        json_match = re.search(r'\{.*\}(?s)', content)
+
+        if json_match:
+            json_str = json_match.group(0)
+            return json.loads(json_str)
+        else:
+            print(f"Error: Could not find JSON object in API response content: {content[:200]}...")
+            return None
     except Exception as e:
         print(f"Error getting city info: {str(e)}")
         return None

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section text-center py-5 mb-5">
+    <h1 class="display-3 mb-4">Welcome to Cultural Compass</h1>
+    <p class="lead mb-5">
+        Discover the cultural wonders of cities around the world.<br>
+        From local customs to unique cuisines, we'll help you navigate new cultural landscapes.
+    </p>
+    <a href="/compare" class="btn btn-primary btn-lg explore-btn">
+        <i class="fas fa-globe-americas me-2"></i>
+        Start Your Cultural Journey
+    </a>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="features-section">
+                <h2 class="text-center mb-5">What You'll Discover</h2>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="feature-card text-center">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-users fa-3x text-primary"></i>
+                            </div>
+                            <h3 class="h4 mb-3">Cultural Norms</h3>
+                            <p>Understand local customs, etiquette, and social practices that make each city unique.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card text-center">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-utensils fa-3x text-primary"></i>
+                            </div>
+                            <h3 class="h4 mb-3">Local Cuisine</h3>
+                            <p>Discover must-try foods and culinary traditions that define the city's culture.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card text-center">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-handshake fa-3x text-primary"></i>
+                            </div>
+                            <h3 class="h4 mb-3">Social Customs</h3>
+                            <p>Learn about greetings, tipping customs, and social interactions to blend in seamlessly.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="how-it-works mt-5 text-center">
+                <h2 class="mb-4">How It Works</h2>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="step-card">
+                            <div class="step-number">1</div>
+                            <h3 class="h5">Choose a City</h3>
+                            <p>Enter any city you're planning to visit</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="step-card">
+                            <div class="step-number">2</div>
+                            <h3 class="h5">Get Insights</h3>
+                            <p>Receive detailed cultural information</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="step-card">
+                            <div class="step-number">3</div>
+                            <h3 class="h5">Explore Confidently</h3>
+                            <p>Navigate the city with cultural awareness</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

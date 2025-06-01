@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="compare-hero">
+    <div class="container">
+        <h1 class="display-4 mb-3">Compare Cities</h1>
+        <p class="lead">Discover cultural differences between cities around the world</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            {% if error %}
+            <div class="alert alert-danger fade-in" role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                {{ error }}
+            </div>
+            {% endif %}
+
+            <div class="compare-form-card slide-up">
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('compare') }}" class="needs-validation" novalidate>
+                        <div class="mb-4">
+                            <label for="origin_city" class="form-label">
+                                <i class="fas fa-map-marker-alt me-2"></i>
+                                Your Current City
+                            </label>
+                            <input type="text" 
+                                   class="form-control city-input" 
+                                   id="origin_city" 
+                                   name="origin_city" 
+                                   placeholder="e.g., New York" 
+                                   autocomplete="off"
+                                   required>
+                            <div class="form-text">Enter the city you're coming from</div>
+                            <div class="suggestions" id="origin_suggestions"></div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="destination_city" class="form-label">
+                                <i class="fas fa-plane-departure me-2"></i>
+                                Destination City
+                            </label>
+                            <input type="text" 
+                                   class="form-control city-input" 
+                                   id="destination_city" 
+                                   name="destination_city" 
+                                   placeholder="e.g., Tokyo" 
+                                   autocomplete="off"
+                                   required>
+                            <div class="form-text">Enter the city you're traveling to</div>
+                            <div class="suggestions" id="destination_suggestions"></div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                            <i class="fas fa-search me-2"></i>
+                            Compare Cities
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="popular-cities slide-up">
+                <h2 class="h4 mb-3">
+                    <i class="fas fa-star me-2"></i>
+                    Popular Destinations
+                </h2>
+                <p class="text-muted mb-4">Try comparing these popular cities:</p>
+                <div class="row g-3">
+                    {% for city in ['New York', 'London', 'Paris', 'Tokyo', 'Sydney', 'Berlin'] %}
+                    <div class="col-md-4">
+                        <div class="card h-100 popular-city-card" onclick="selectCity('{{ city }}')">
+                            <div class="card-body">
+                                <i class="fas fa-city me-2 text-primary"></i>
+                                <span class="fw-medium">{{ city }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Form validation
+(function () {
+    'use strict'
+    var forms = document.querySelectorAll('.needs-validation')
+    Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
+
+// City suggestions
+document.addEventListener('DOMContentLoaded', function() {
+    const cityInputs = document.querySelectorAll('.city-input');
+    let timeoutId;
+
+    cityInputs.forEach(input => {
+        const suggestionsDiv = document.getElementById(input.id + '_suggestions');
+        
+        input.addEventListener('input', function() {
+            clearTimeout(timeoutId);
+            const query = this.value.trim();
+            
+            if (query.length < 2) {
+                suggestionsDiv.style.display = 'none';
+                return;
+            }
+
+            timeoutId = setTimeout(() => {
+                fetch(`/api/cities/suggest?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(suggestions => {
+                        suggestionsDiv.innerHTML = '';
+                        if (suggestions.length > 0) {
+                            suggestions.forEach(city => {
+                                const div = document.createElement('div');
+                                div.className = 'suggestion-item';
+                                div.innerHTML = `<i class="fas fa-map-marker-alt me-2"></i>${city}`;
+                                div.addEventListener('click', () => {
+                                    input.value = city;
+                                    suggestionsDiv.style.display = 'none';
+                                });
+                                suggestionsDiv.appendChild(div);
+                            });
+                            suggestionsDiv.style.display = 'block';
+                        } else {
+                            suggestionsDiv.style.display = 'none';
+                        }
+                    });
+            }, 300);
+        });
+
+        // Hide suggestions when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!input.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+                suggestionsDiv.style.display = 'none';
+            }
+        });
+    });
+});
+
+function selectCity(city) {
+    const destinationInput = document.getElementById('destination_city');
+    destinationInput.value = city;
+    destinationInput.focus();
+    
+    // Add a subtle animation to the selected card
+    const cards = document.querySelectorAll('.popular-city-card');
+    cards.forEach(card => {
+        if (card.textContent.trim().includes(city)) { // Updated to use includes for safer matching
+            card.classList.add('selected');
+            setTimeout(() => card.classList.remove('selected'), 500);
+        }
+    });
+}
+</script>
+
+<style>
+.suggestions {
+    position: absolute;
+    background: white;
+    border: none;
+    border-radius: 0.75rem;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 100%;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    margin-top: 0.5rem;
+}
+
+.suggestion-item {
+    padding: 0.875rem 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #495057;
+}
+
+.suggestion-item:hover {
+    background-color: #f8f9fa;
+    color: #0d6efd;
+}
+
+.popular-city-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.popular-city-card:hover {
+    transform: translateY(-3px);
+    background: #e9ecef;
+}
+
+.popular-city-card.selected {
+    animation: pulse 0.5s ease;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+</style>
+{% endblock %} 

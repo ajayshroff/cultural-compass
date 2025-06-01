@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="destination-header text-center slide-up">
+                <h1 class="display-4 mb-3">Welcome to {{ destination.name }}!</h1>
+                <p class="lead">Your cultural guide to {{ destination.name }}</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Cultural Norms -->
+                <div class="col-md-6">
+                    <div class="cultural-card slide-up" style="animation-delay: 0.1s">
+                        <div class="card-header">
+                            <h3 class="h5 mb-0">
+                                <i class="fas fa-users"></i>
+                                Cultural Norms
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                {% for norm in destination.cultural_norms %}
+                                <li class="list-group-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    {{ norm }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tipping Culture -->
+                <div class="col-md-6">
+                    <div class="cultural-card slide-up" style="animation-delay: 0.2s">
+                        <div class="card-header">
+                            <h3 class="h5 mb-0">
+                                <i class="fas fa-money-bill-wave"></i>
+                                Tipping Culture
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="tipping-info">
+                                <i class="fas fa-info-circle"></i>
+                                {{ destination.tipping }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Greetings -->
+                <div class="col-md-6">
+                    <div class="cultural-card slide-up" style="animation-delay: 0.3s">
+                        <div class="card-header">
+                            <h3 class="h5 mb-0">
+                                <i class="fas fa-handshake"></i>
+                                Greetings
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="greeting-info">
+                                <i class="fas fa-comment"></i>
+                                {{ destination.greeting }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unique Foods -->
+                <div class="col-md-6">
+                    <div class="cultural-card slide-up" style="animation-delay: 0.4s">
+                        <div class="card-header">
+                            <h3 class="h5 mb-0">
+                                <i class="fas fa-utensils"></i>
+                                Must-Try Local Foods
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                {% for food in destination.unique_foods %}
+                                <li class="list-group-item">
+                                    <i class="fas fa-utensils"></i>
+                                    {{ food }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                {% if destination.cool_facts %}
+                <!-- Cool Facts -->
+                <div class="col-md-12">
+                    <div class="cultural-card slide-up" style="animation-delay: 0.5s">
+                        <div class="card-header bg-info text-white">
+                            <h3 class="h5 mb-0">
+                                <i class="fas fa-lightbulb"></i>
+                                Cool Facts About {{ destination.name }}
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                {% for fact in destination.cool_facts %}
+                                <li class="list-group-item">
+                                    <i class="fas fa-star"></i>
+                                    {{ fact }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="text-center mt-5 slide-up" style="animation-delay: 0.6s">
+                <a href="/compare" class="btn btn-primary btn-lg">
+                    <i class="fas fa-globe-americas me-2"></i>
+                    Explore Another City
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

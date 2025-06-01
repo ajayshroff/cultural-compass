@@ -7,7 +7,7 @@ from functools import lru_cache
 app = Flask(__name__)
 
 # Your OpenAI API key
-openai.api_key = "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"
+openai.api_key = os.getenv('OPENAI_API_KEY') # Use environment variable
 
 def get_city_info(city_name):
     """Get cultural information for a city using ChatGPT API."""

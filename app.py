@@ -1,3 +1,6 @@
+
+
+
 from flask import Flask, render_template, request, jsonify
 import openai
 import os
@@ -8,16 +11,11 @@ import re # Import the re module
 app = Flask(__name__)
 
 # Your OpenAI API key
-# Get API key in two parts from environment variables and combine
 # NOTE: Hardcoding API key is insecure for public repositories!
 openai_api_key_part1 = 'sk-proj-AaGdn3azV0SYJX6kDqsvoONwmJIiWfP7wmHr-CMY_Es3YcUgFW9KP3OEkv'
 openai_api_key_part2 = 'Vu86D2UPYibx1CvT3BlbkFJIms1MB5dh4AbRqljG50z8yzY1IOWQc17PKUyawraJVPSMZkU-WiKw2TQTuXgVaFxqDI8AdtOQA'
 
-# if openai_api_key_part1 and openai_api_key_part2:
 openai.api_key = openai_api_key_part1 + openai_api_key_part2
-# else:
-#     print("Warning: OPENAI_API_KEY_PART1 or OPENAI_API_KEY_PART2 environment variable not set!")
-#     openai.api_key = None # Ensure API key is None if parts are missing
 
 def get_city_info(city_name):
     """Get cultural information for a city using ChatGPT API."""
@@ -116,8 +114,8 @@ def suggest_cities():
     return jsonify(suggestions[:5])  # Return top 5 suggestions
 
 if __name__ == '__main__':
-    if not os.getenv('OPENAI_API_KEY'):
-        print("Warning: OPENAI_API_KEY environment variable not set!")
+    # if not os.getenv('OPENAI_API_KEY'):
+    #     print("Warning: OPENAI_API_KEY environment variable not set!")
     
     # Get port from environment variable, default to 5000
     port = int(os.environ.get('PORT', 5000))

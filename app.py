@@ -12,8 +12,8 @@ app = Flask(__name__)
 
 # Your OpenAI API key
 # NOTE: Hardcoding API key is insecure for public repositories!
-openai_api_key_part1 = 'sk-proj-AaGdn3azV0SYJX6kDqsvoONwmJIiWfP7wmHr-CMY_Es3YcUgFW9KP3OEkv'
-openai_api_key_part2 = 'Vu86D2UPYibx1CvT3BlbkFJIms1MB5dh4AbRqljG50z8yzY1IOWQc17PKUyawraJVPSMZkU-WiKw2TQTuXgVaFxqDI8AdtOQA'
+openai_api_key_part1 = 'sk-proj-gPGfDMfi__HFn9l9js5RQ0w7-4T82cTvR'
+openai_api_key_part2 = 'yKmvZ7TFOW6BJ8Hk8U0BNRPo2vu3VGNwl3WgH3CtBT3BlbkFJJC6Ee6t8K1fkRKEVsmPpvSVT7QDnIJjFKtB4jSpMtlEejNFgpiqDnRabiQ3aOXtyGv1mwEdNQA'
 
 openai.api_key = openai_api_key_part1 + openai_api_key_part2
 
